@@ -1,0 +1,81 @@
+class Node{
+    init(value, next){
+        this.value = value;
+        this.next = next;
+    }
+}
+
+class LinkedList{
+    init(){
+        this.first = nil;
+        this.last = nil;
+    }
+
+    addLast(value){
+        if(this.first == nil and this.last == nil){
+            var newNode = Node(value, nil);
+            this.first = newNode;
+            this.last = newNode;
+        }else{
+            var newNode = Node(value, nil);
+            this.last.next = newNode;
+            this.last = newNode;
+        }
+    }
+
+    addFirst(value){
+        if(this.first == nil and this.last == nil){
+            var newNode = Node(value, nil);
+            this.first = newNode;
+            this.last = newNode;
+        }else{
+            var newNode = Node(value, this.first);
+            this.first = newNode;
+        }
+    }
+
+    removeLast(){
+        var current = this.first;
+        while(current != nil and current.next != this.last){
+            current = current.next;
+        }
+        this.last = current;
+    }
+
+    removeFirst(){
+        if(this.first != nil and this.last != nil){
+            this.first = this.first.next;
+        }
+    }
+
+    length(){
+        return this.count(this.first);
+    }
+
+    count(node){
+        if(node == nil){
+            return 0;
+        }
+
+        return 1 + this.count(node.next);
+
+    }
+
+    printList(){
+        var current = this.first;
+        while(current != nil){
+            print current.value;
+            current = current.next;
+        }
+    }
+}
+
+var list = LinkedList();
+var totalValues = 10;
+for(var i = 0; i < totalValues / 2; i = i + 1){
+    list.addFirst(i);
+    list.addLast(i);
+}
+
+list.printList();
+print "Length: " + list.length();

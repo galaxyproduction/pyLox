@@ -1,0 +1,62 @@
+class BankAccount{
+    init(owner, initialBalance){
+        this.Owner = owner;
+        this.Balance = initialBalance;
+    }
+
+    deposit(amount){
+        this.Balance = this.Balance + amount;
+    }
+
+    withdraw(amount){
+        this.Balance = this.Balance - amount;
+    }
+
+    printAccount(){
+        print this.Owner + " has: $" + this.Balance + ".";
+    }
+}
+
+class SavingsAccount < BankAccount {
+    init(owner, initialBalance, interestRate){
+        this.interestRate = interestRate;
+        super.init(owner, initialBalance);
+        this.depositCount = 0; // Owner gets interest every 3 deposit
+    }
+
+    deposit(amount){
+        super.deposit(amount);
+        this.depositCount = this.depositCount + 1;
+        if(this.depositCount == 3){
+            print this.Owner + ", Wow you got interest on your savings!";
+            this.Balance = this.Balance + this.Balance * this.interestRate;
+            this.depositCount = 0;
+        }
+    }
+}
+
+class CheckingAccount < BankAccount{
+    init(owner, initialBalance){
+        super.init(owner, initialBalance);
+    }
+
+    withdraw(amount){
+        if(this.Balance - amount < 0){
+            print this.Owner + ", you over drafted your checking account! You received a $15 dollar fine.";
+            this.Balance = this.Balance - 15;
+        }else{
+            super.withdraw(amount);
+        }
+    }
+}
+
+var savings = SavingsAccount("Baker", 2000, 0.03);
+var checking = CheckingAccount("Clark", 1000);
+
+for(var i = 0; i < 4; i = i + 1){
+    savings.deposit(500);
+    checking.withdraw(300);
+}
+
+savings.printAccount();
+checking.printAccount();
